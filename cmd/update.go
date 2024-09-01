@@ -11,18 +11,15 @@ import (
 var defaultRepo = "https://github.com/misskey-dev/misskey.git"
 var defaultBranch = "master"
 var lowMemory bool
+var branch string
 
 var updateCmd = &cobra.Command{
 	Use:   "update [repo] [branch]",
 	Short: "Update misskey to latest version for systemd.",
 	Run: func(cmd *cobra.Command, args []string) {
 		repo := defaultRepo
-		branch := defaultBranch
 		if len(args) > 0 {
 			repo = args[0]
-		}
-		if len(args) > 1 {
-			branch = args[1]
 		}
 		out, err := exec.Command("git", "pull", repo, branch).Output()
 		if err != nil {
@@ -44,7 +41,7 @@ var updateCmd = &cobra.Command{
 
 		os.Setenv("NODE_ENV", "production")
 
-		out, err = exec.Command("pnpm", "install", "--frozen-lockfile").Output()
+		out, err = exec.Command("pnpm", "install", "--frozen-lockfile", "--non-interactive").Output()
 		if err != nil {
 			fmt.Println("error:", err)
 			os.Exit(1)
@@ -69,5 +66,6 @@ var updateCmd = &cobra.Command{
 
 func init() {
 	updateCmd.Flags().BoolVarP(&lowMemory, "low-memory", "l", false, "Enable low memory mode.")
+	updateCmd.Flags().StringVarP(&branch, "branch", "b", defaultBranch, "Speciy branch to pull.")
 	rootCmd.AddCommand(updateCmd)
 }
