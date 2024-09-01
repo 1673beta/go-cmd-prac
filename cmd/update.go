@@ -39,22 +39,19 @@ var updateCmd = &cobra.Command{
 		fmt.Println(string(out))
 
 		if lowMemory {
-			out, err = exec.Command("export", "NODE_OPTIONS=--max_old_space_size=3072").Output()
-			if err != nil {
-				fmt.Println("error:", err)
-				os.Exit(1)
-			}
-			fmt.Println(string(out))
+			os.Setenv("NODE_OPTIONS", "--max_old_space_size=3072")
 		}
 
-		out, err = exec.Command("NODE_ENV=production", "pnpm", "install", "--frozen-lockfile").Output()
+		os.Setenv("NODE_ENV", "production")
+
+		out, err = exec.Command("pnpm", "install", "--frozen-lockfile").Output()
 		if err != nil {
 			fmt.Println("error:", err)
 			os.Exit(1)
 		}
 		fmt.Println(string(out))
 
-		out, err = exec.Command("NODE_ENV=production", "pnpm", "run", "build").Output()
+		out, err = exec.Command("pnpm", "run", "build").Output()
 		if err != nil {
 			fmt.Println("error:", err)
 			os.Exit(1)
