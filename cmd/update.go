@@ -25,9 +25,9 @@ var updateCmd = &cobra.Command{
 		}
 		fmt.Println(string(out))
 
-		out, err = exec.Command("git", "submodule", "update", "--init").Output()
+		out, err = exec.Command("git", "submodule", "update", "--init").CombinedOutput()
 		if err != nil {
-			fmt.Println("error while submodule update:", err)
+			fmt.Printf("error while submodule update: %v, output: %s", err, out)
 			os.Exit(1)
 		}
 		fmt.Println(string(out))
@@ -40,7 +40,7 @@ var updateCmd = &cobra.Command{
 
 		out, err = exec.Command("pnpm", "install", "--frozen-lockfile", "--non-interactive").Output()
 		if err != nil {
-			fmt.Println("error:", err)
+			fmt.Println("error while installing module:", err)
 			os.Exit(1)
 		}
 		fmt.Println(string(out))
