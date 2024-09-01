@@ -20,14 +20,14 @@ var updateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		out, err := exec.Command("git", "pull", repo, branch).Output()
 		if err != nil {
-			fmt.Println("error:", err)
+			fmt.Println("error while git pull:", err)
 			os.Exit(1)
 		}
 		fmt.Println(string(out))
 
 		out, err = exec.Command("git", "submodule", "update", "--init").Output()
 		if err != nil {
-			fmt.Println("error:", err)
+			fmt.Println("error while submodule update:", err)
 			os.Exit(1)
 		}
 		fmt.Println(string(out))
