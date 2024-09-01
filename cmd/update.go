@@ -18,9 +18,9 @@ var updateCmd = &cobra.Command{
 	Use:   "update [repo] [branch]",
 	Short: "Update misskey to latest version for systemd.",
 	Run: func(cmd *cobra.Command, args []string) {
-		out, err := exec.Command("git", "pull", repo, branch).Output()
+		out, err := exec.Command("git", "pull", repo, branch).CombinedOutput()
 		if err != nil {
-			fmt.Println("error while git pull:", err)
+			fmt.Printf("error while git pull: %v, output: %s\n", err, out)
 			os.Exit(1)
 		}
 		fmt.Println(string(out))
