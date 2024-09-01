@@ -62,6 +62,6 @@ var removeCmd = &cobra.Command{
 
 func init() {
 	updateCmd.Flags().IntVarP(&deleteDays, "days", "d", 120, "How old notes have to be before they are deleted. Defaults to 120.")
-	updateCmd.Flags().BoolVarP(&remoteOnly, "remote", "r", false, "Only delete notes from remote server.")
+	updateCmd.Flags().BoolVarP(&remoteOnly, "remote", "o", false, "Only delete notes from remote server.")
 	rootCmd.AddCommand(removeCmd)
 }
