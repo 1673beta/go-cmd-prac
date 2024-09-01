@@ -8,19 +8,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var defaultRepo = "https://github.com/misskey-dev/misskey.git"
+var defaultRepo = "origin"
 var defaultBranch = "master"
 var lowMemory bool
 var branch string
+var repo string
 
 var updateCmd = &cobra.Command{
 	Use:   "update [repo] [branch]",
 	Short: "Update misskey to latest version for systemd.",
 	Run: func(cmd *cobra.Command, args []string) {
-		repo := defaultRepo
-		if len(args) > 0 {
-			repo = args[0]
-		}
 		out, err := exec.Command("git", "pull", repo, branch).Output()
 		if err != nil {
 			fmt.Println("error:", err)
@@ -67,5 +64,6 @@ var updateCmd = &cobra.Command{
 func init() {
 	updateCmd.Flags().BoolVarP(&lowMemory, "low-memory", "l", false, "Enable low memory mode.")
 	updateCmd.Flags().StringVarP(&branch, "branch", "b", defaultBranch, "Speciy branch to pull.")
+	updateCmd.Flags().StringVarP(&repo, "repo", "r", defaultRepo, "Specify repository to pull.")
 	rootCmd.AddCommand(updateCmd)
 }
