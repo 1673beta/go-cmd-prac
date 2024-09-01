@@ -1,6 +1,6 @@
 package main
 
-import "cmdprac/cmd"
+import "mkctl/cmd"
 
 var version string
 
