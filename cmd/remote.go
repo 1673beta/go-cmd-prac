@@ -25,7 +25,7 @@ var suspendCmd = &cobra.Command{
 
 		host := args[0]
 
-		query := `UPDATE instance SET suspensionState = 'manuallySuspended' WHERE instance."host" = $1`
+		query := `UPDATE instance SET "suspensionState" = 'manuallySuspended' WHERE instance."host" = $1`
 		_, err = db.Exec(query, host)
 		if err != nil {
 			fmt.Printf("error while suspending remote server: %v", err)
@@ -46,7 +46,7 @@ var unsuspendCmd = &cobra.Command{
 
 		host := args[0]
 
-		query := `UPDATE instance SET suspensionState = 'none' WHERE instance."host" = $1`
+		query := `UPDATE instance SET "suspensionState" = 'none' WHERE instance."host" = $1`
 		_, err = db.Exec(query, host)
 		if err != nil {
 			fmt.Printf("error while unsuspending remote server: %v", err)
@@ -67,7 +67,7 @@ var goneCmd = &cobra.Command{
 
 		host := args[0]
 
-		query := `UPDATE instance SET suspensionState = 'goneSuspended' WHERE instance."host" = $1`
+		query := `UPDATE instance SET "suspensionState" = 'goneSuspended' WHERE instance."host" = $1`
 		_, err = db.Exec(query, host)
 		if err != nil {
 			fmt.Printf("error while setting remote server as gone: %v", err)
